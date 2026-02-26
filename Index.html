@@ -1,0 +1,47 @@
+<!-- Sección de estadísticas -->
+<section>
+  <h2>Estadísticas</h2>
+  <p>Distribución de métodos de enseñanza usados:</p>
+  <!-- Canvas más pequeño -->
+  <canvas id="graficoMetodos" width="250" height="150"></canvas>
+</section>
+
+<script>
+  const ctx = document.getElementById('graficoMetodos').getContext('2d');
+  let grafico;
+
+  function actualizarGrafico() {
+    const conteo = {};
+    clases.forEach(clase => {
+      conteo[clase.metodo] = (conteo[clase.metodo] || 0) + 1;
+    });
+    const etiquetas = Object.keys(conteo);
+    const valores = Object.values(conteo);
+
+    if (grafico) grafico.destroy();
+
+    grafico = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: etiquetas,
+        datasets: [{
+          label: 'Cantidad de veces usado',
+          data: valores,
+          backgroundColor: 'rgba(75, 192, 192, 0.6)'
+        }]
+      },
+      options: {
+        responsive: false, // mantiene el tamaño fijo
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 }
+          }
+        }
+      }
+    });
+  }
+</script>
